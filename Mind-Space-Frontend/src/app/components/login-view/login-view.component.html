@@ -5,10 +5,10 @@
                 <h1 class="text-light text-center">DAILY RANKS</h1>
                 @for (score of highScoreOfTheDay$; track $index) {
                 <ol class="text-light text-center">
-                    <span class="fw-bold">{{$index + 1}}</span>) {{score.name.string}}
+                    <span class="fw-bold">{{$index + 1}}</span>) {{score.name.toString()}}
                 </ol>
                 <ol class="text-warning text-center">
-                    score: {{score.score.string}}
+                    score: {{score.score.toString()}}
                 </ol>
                 <ol class="text-light text-center">~~~~~~~~~~~~~~~~~~~~</ol>
                 }
@@ -96,10 +96,10 @@
                 <h1 class="text-light text-center">HALL OF FAME</h1>
                 @for (score of allTimeHighScore$; track $index) {
                 <ol class="text-light text-center">
-                    <span class="fw-bold">{{$index + 1}}</span>) {{score.name.string}}
+                    <span class="fw-bold">{{$index + 1}}</span>) {{score.name.toString()}}
                 </ol>
                 <ol class="text-warning text-center">
-                    score: {{score.score.string}}
+                    score: {{score.score.toString()}}
                 </ol>
                 <ol class="text-light text-center">~~~~~~~~~~~~~~~~~~~~</ol>
                 }
