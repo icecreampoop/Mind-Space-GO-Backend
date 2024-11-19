@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, NgZone, OnDestroy } from '@angular/core';
-import Stats from 'three/examples/jsm/libs/stats.module.js';
+import Stats from 'three/examples/jsm/libs/stats.module';
 
 @Component({
   selector: 'app-stats',

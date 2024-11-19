@@ -1,5 +1,5 @@
 import { AnimationAction, Object3D, Object3DEventMap, Scene } from "three";
-import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
+import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 import { AnimationMixer } from "three";
 import * as CANNON from 'cannon-es';
 import physicsWorld from '../utils/physics';

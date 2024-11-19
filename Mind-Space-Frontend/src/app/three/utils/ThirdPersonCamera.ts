@@ -1,7 +1,7 @@
 import { ElementRef } from '@angular/core';
 import { Vec3 } from 'cannon-es';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 let orbitControl: OrbitControls;
 

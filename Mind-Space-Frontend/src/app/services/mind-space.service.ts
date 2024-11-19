@@ -11,7 +11,7 @@ import physicsWorld, { cleanUpPhysics } from '../three/utils/physics';
 import { CharacterControls } from '../three/utils/CharacterControls';
 import { loadGameLogic, resetGameLogic, stopAllBGM, updateGameLogic } from '../three/loaders/GameLogicLoader';
 import { GameStateStore } from '../ngrx-signal-store/gamestate.store';
-import { Timer } from 'three/examples/jsm/misc/Timer.js';
+import { Timer } from 'three/examples/jsm/misc/Timer';
 import { AudioService } from '../three/audio.service';
 
 @Injectable({
