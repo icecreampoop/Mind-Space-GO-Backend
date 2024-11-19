@@ -8,6 +8,7 @@ import (
 
 func getScores(w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Query().Get("score")
+	//TODO Placeholder PLEASE DELETE
 	jsonData := []map[string]interface{}{
 		{
 			"name":  "hehe",
@@ -19,8 +20,6 @@ func getScores(w http.ResponseWriter, r *http.Request) {
 			"score": 9999,
 		},
 	)
-	
-	fmt.Println(jsonData[0])
 
 	if name == "dailyscores" {
 		w.Header().Set("Content-Type", "application/json")
@@ -39,4 +38,31 @@ func getScores(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+}
+
+func login(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func createAccount(w http.ResponseWriter, r *http.Request) {
+	//temp struct to hold the json object values
+	var data map[string]interface{}
+	//always assume nothing can go wrong hurrrrr
+	json.NewDecoder(r.Body).Decode(&data)
+
+	err := userDBButItsATree.createUser(data["username"].(string), data["password"].(string), 0)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Header().Set("Content-Type", "text/plain")
+		fmt.Fprintf(w, err.Error())
+	} else {
+		//created successfully
+		w.WriteHeader(http.StatusCreated)
+		w.Header().Set("Content-Type", "text/plain")
+		fmt.Fprintf(w, "Account Created!")
+	}
+}
+
+func updateScore(w http.ResponseWriter, r *http.Request) {
+
 }
