@@ -14,6 +14,13 @@ var (
 )
 
 func main() {
+	defer func() {
+        if r := recover(); r != nil {
+            fmt.Println("Caught panic:", r)
+			fmt.Println("Server Down")
+        }
+    }()
+
 	//init fake db
 	go func() {
 		hallOfFamePrioQueue.enterNewScoreIntoQueue("bobobo", 314159)

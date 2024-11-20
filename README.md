@@ -8,6 +8,8 @@ Find the original repository here: [Mind-Space](https://github.com/icecreampoop/
 
 2. binary heap for the priority queue
 
+3. the daily priority queue should "expire" upon 0000 Singapore time
+
 # How to use/play it
 Prerequisites:
 - GoLang installed
