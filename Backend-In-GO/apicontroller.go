@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 )
 
 func getScores(w http.ResponseWriter, r *http.Request) {
@@ -51,7 +52,22 @@ func getScores(w http.ResponseWriter, r *http.Request) {
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
+	//temp struct to hold the json object values
+	var data map[string]interface{}
+	//always assume nothing can go wrong hurrrrr
+	json.NewDecoder(r.Body).Decode(&data)
 
+	userNode, _ := userDBButItsATree.findUserNode(userDBButItsATree.root, data["username"].(string))
+
+	if userNode == nil {
+		http.Error(w, "Username Does Not Exist", http.StatusBadRequest)
+	} else if userNode.user.password != data["password"].(string) {
+		http.Error(w, "Wrong Password", http.StatusBadRequest)
+	} else {
+		w.Header().Set("Content-Type", "text/plain")
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(strconv.Itoa(userNode.user.personalScore)))
+	}
 }
 
 func createAccount(w http.ResponseWriter, r *http.Request) {

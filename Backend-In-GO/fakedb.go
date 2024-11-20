@@ -3,7 +3,7 @@ package main
 import "errors"
 
 type (
-	usernamePassword struct {
+	userPasswordScore struct {
 		username string
 		password string
 		personalScore int
@@ -28,7 +28,7 @@ type (
 	}
 
 	binaryNode struct {
-		user *usernamePassword
+		user *userPasswordScore
 		left  *binaryNode // pointer to point to left node
 		right *binaryNode // pointer to point to right node
 	}
@@ -46,7 +46,7 @@ func (bst *bst) createUser(username string, password string, personalScore int) 
 	//if empty db just add
 	if bst.size == 0 {
 		bst.root = &binaryNode{
-			user : &usernamePassword{
+			user : &userPasswordScore{
 				username: username,
 				password: password,
 				personalScore: personalScore,
@@ -60,7 +60,7 @@ func (bst *bst) createUser(username string, password string, personalScore int) 
 		//cus return err if user does not exist
 		if err != nil {
 			bst.insertNodeHelper(&bst.root, &binaryNode{
-				user : &usernamePassword{
+				user : &userPasswordScore{
 					username: username,
 					password: password,
 					personalScore: personalScore,
@@ -95,7 +95,7 @@ func (bst *bst) insertNodeHelper(root **binaryNode, userNode *binaryNode) {
 	}
 }
 
-//read (no need lock)
+//pass in root of the bst, returns found user node if avail
 func (bst *bst) findUserNode(root *binaryNode, username string) (*binaryNode, error) {
 	if root == nil {
 		return nil, errors.New("User does not exist")
@@ -111,8 +111,6 @@ func (bst *bst) findUserNode(root *binaryNode, username string) (*binaryNode, er
 		return bst.findUserNode(root.left, username)
 	}
 }
-
-//for when user login, retrieve account info
 
 //update
 
