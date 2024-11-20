@@ -7,14 +7,20 @@ import (
 )
 
 var (
-	userDBButItsATree = bst{}
+	userDBButItsATree   = bst{}
 	hallOfFamePrioQueue = prioQueue{}
 	dailyScorePrioQueue = prioQueue{}
-	mu sync.Mutex
+	mu                  sync.Mutex
 )
 
 func main() {
 	//init fake db
+	go func() {
+		hallOfFamePrioQueue.enterNewScoreIntoQueue("bobo", 314159)
+		dailyScorePrioQueue.enterNewScoreIntoQueue("bobo", 314159)
+		hallOfFamePrioQueue.enterNewScoreIntoQueue("spongeboop", 123456)
+		dailyScorePrioQueue.enterNewScoreIntoQueue("spongeboop", 123456)
+	}()
 
 	//dont need do this as listen and serve if taking in nil will give default
 	//but i want prefix

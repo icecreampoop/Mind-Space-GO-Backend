@@ -9,9 +9,22 @@ type (
 		personalScore int
 	}
 
-	hallOfFameEntry struct {
-		user *usernamePassword
+	queueRecord struct {
+		username string
 		score int
+	}
+
+	prioQueue struct {
+		//front is highest score
+		//back is lowest score
+		front *qNode
+		back *qNode
+		size int
+	}
+
+	qNode struct {
+		item *queueRecord
+		next *qNode
 	}
 
 	binaryNode struct {
@@ -23,10 +36,6 @@ type (
 	bst struct {
 		root *binaryNode
 		size int
-	}
-
-	prioQueue struct {
-
 	}
 )
 
@@ -109,6 +118,66 @@ func (bst *bst) findUserNode(root *binaryNode, username string) (*binaryNode, er
 
 //delete
 
-// thread safe prio queue for daily score
+//internal helper to add scores
+func (p *prioQueue) enqueue(username string, score int) error {
+	newNode := &qNode{
+		item: &queueRecord{
+			username: username,
+			score: score,
+		},
+		next: nil,
+	}
 
-// thread safe prio queue for hall of fame
+	mu.Lock()
+
+	if p.front == nil {
+		p.front = newNode
+		p.back = newNode
+
+	} else {
+		if newNode.item.score > p.front.item.score {
+			newNode.next = p.front
+			p.front = newNode
+		} else {
+			current := p.front
+			for current.next != nil && current.next.item.score > newNode.item.score {
+                current = current.next
+            }
+			newNode.next = current.next
+			current.next = newNode
+
+			if newNode.next == nil {
+				p.back = newNode
+			}
+		}
+
+	}
+	p.size++
+	mu.Unlock()
+	return nil
+}
+
+//returns an error if score not entered into queue (queue was full AND score wasnt high enough for top 10)
+func (p *prioQueue) enterNewScoreIntoQueue(username string, score int) error {
+	mu.Lock()
+
+	if p.size < 10 {
+		//HAVE TO RELEASE LOCK BEFORE GOING INTO ANOTHER LOCK
+		mu.Unlock()
+		p.enqueue(username, score)
+		return nil
+	} else if score > p.back.item.score{
+		p.back = nil
+		p.size--
+		mu.Unlock()
+		p.enqueue(username,score)
+		return nil
+	}
+
+	mu.Unlock()
+	return errors.New("Score was not high enough to enter")
+}
+
+func (p *prioQueue) isEmpty() bool {
+	return p.size == 0
+}

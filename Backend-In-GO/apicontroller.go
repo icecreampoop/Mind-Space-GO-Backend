@@ -8,22 +8,21 @@ import (
 
 func getScores(w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Query().Get("score")
-	//TODO Placeholder PLEASE DELETE
-	jsonData := []map[string]interface{}{
-		{
-			"name":  "hehe",
-			"score": 1234,
-		},
-	}
-	jsonData = append(jsonData, map[string]interface{}{
-			"name": "ok im done",
-			"score": 9999,
-		},
-	)
 
 	if name == "dailyscores" {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
+		jsonData := []map[string]interface{}{}
+		temp := dailyScorePrioQueue.front
+		for temp != nil {
+			jsonData = append(jsonData, map[string]interface{}{
+				"name":  temp.item.username,
+				"score": temp.item.score,
+			},
+			)
+			temp = temp.next
+		}
+
 		err := json.NewEncoder(w).Encode(jsonData)
 		if err != nil {
 			http.Error(w, "Error encoding JSON", http.StatusInternalServerError)
@@ -32,6 +31,17 @@ func getScores(w http.ResponseWriter, r *http.Request) {
 	} else if name == "halloffame" {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
+		jsonData := []map[string]interface{}{}
+		temp := hallOfFamePrioQueue.front
+		for temp != nil {
+			jsonData = append(jsonData, map[string]interface{}{
+				"name":  temp.item.username,
+				"score": temp.item.score,
+			},
+			)
+			temp = temp.next
+		}
+
 		err := json.NewEncoder(w).Encode(jsonData)
 		if err != nil {
 			http.Error(w, "Error encoding JSON", http.StatusInternalServerError)

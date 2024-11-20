@@ -4,9 +4,9 @@ With 2 days left for my assignment, I had the bright idea to rewrite my previous
 Find the original repository here: [Mind-Space](https://github.com/icecreampoop/Mind-Space)
 
 # Where it can be improved
-1. hthht
+1. balance the binary search tree
 
-2. htdhdh
+2. binary heap for the priority queue
 
 # How to use/play it
 Prerequisites:
