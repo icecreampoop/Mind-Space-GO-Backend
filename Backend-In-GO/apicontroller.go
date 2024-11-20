@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"strconv"
 )
@@ -90,5 +91,27 @@ func createAccount(w http.ResponseWriter, r *http.Request) {
 }
 
 func updateScore(w http.ResponseWriter, r *http.Request) {
+	whatToReturn := "Personal High Score Updated"
 
+	username := r.PathValue("username")
+	body, _ := io.ReadAll(r.Body)
+	score, _ := strconv.Atoi(string(body))
+
+	w.Header().Set("Content-Type", "text/plain")
+	w.WriteHeader(http.StatusOK)
+
+	userNode, _ := userDBButItsATree.findUserNode(userDBButItsATree.root, username)
+	if score > userNode.user.personalScore {
+		userNode.user.personalScore = score
+	}
+	err := dailyScorePrioQueue.enterNewScoreIntoQueue(userNode.user.username, userNode.user.personalScore)
+	if err == nil {
+		whatToReturn = "Daily Rank Updated"
+	}
+	err = hallOfFamePrioQueue.enterNewScoreIntoQueue(userNode.user.username, userNode.user.personalScore)
+	if err == nil {
+		whatToReturn = "Hall Of Fame Updated"
+	}
+
+	fmt.Fprintf(w, whatToReturn)
 }
