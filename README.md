@@ -19,6 +19,7 @@ Prerequisites:
 1) Clone the repository
 
 2) Run commands in terminal (runs the project in dev mode)<br>
+\> npm i (run this in the frontend folder)<br>
 \> ng serve --proxy-config proxy.config.json (run this in the frontend folder)<br>
 \> go run main.go apicontroller.go fakedb.go (run this in the backend folder)<br>
 
