@@ -1,6 +1,8 @@
 # What is this?
 With 2 days left for my assignment, I had the bright idea to rewrite my previous backend project in Go and submit it as the assignment. 
 
+For the rewrite, instead of calling out to Redis and MySQL I am storing data on memory. I am using a (unbalanced) binary search tree to replace user MySQL table and 2 priority queues to replace the Redis and hall of fame MySQL table.
+
 Find the original repository here: [Mind-Space](https://github.com/icecreampoop/Mind-Space)
 
 # Where it can be improved
